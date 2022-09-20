@@ -1,0 +1,14 @@
+.device {
+    display:flex;
+    flex-direction: column;
+    padding: 15px;
+    height: 100px;
+}
+
+.alarm-trigger {
+    border: 1px solid red;
+}
+
+table {
+    margin-top: 10px;
+}

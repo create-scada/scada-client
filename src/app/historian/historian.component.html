@@ -1,0 +1,76 @@
+<mat-card style="margin-top: 50px; margin-bottom: 50px;" *ngIf="displaySchema && formAssembled">
+  <mat-card-content>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <mat-form-field style="display: block;">
+        <input matInput type="datetime-local" formControlName="gt_date" placeholder="Date From" />
+      </mat-form-field>
+
+      <mat-form-field style="display: block;">
+        <input matInput type="datetime-local" formControlName="lt_date" placeholder="Date To" />
+      </mat-form-field>
+
+      <div *ngFor="let point of displaySchema | keyvalue">
+        <div *ngIf="point.value.data_type == 'number'">
+          <mat-form-field>
+            <input matInput type="number" formControlName="gt_{{ point.key }}"
+              placeholder="{{ point.key }} (greater than)" />
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="number" formControlName="lt_{{ point.key }}"
+              placeholder="{{ point.key }} (less than)" />
+          </mat-form-field>
+        </div>
+        <div *ngIf="point.value.data_type == 'discrete'">
+          <mat-form-field>
+            <mat-label>
+              {{ point.key }}
+            </mat-label>
+            <mat-select formControlName="eq_{{ point.key }}">
+              <mat-option value="{{ val }}" *ngFor="let val of point.value.values">{{ val }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field style="display: block;">
+        <mat-label>
+          Plot point
+        </mat-label>
+        <mat-select #plotPoint (selectionChange)="plotPointClicked(plotPoint.value)">
+          <mat-option *ngFor="let point of displayPoints || []" value="{{point}}">{{point}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-button [disabled]="!searchForm.valid" type="button" (click)="onSubmitSearch()">
+        Search
+      </button>
+      <button mat-button [disabled]="!searchForm.valid" type="button" (click)="onSubmitDownload()">
+        Download
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<div style="text-align: center;">
+  <img id="dataPlot" #dataPlot src="">
+</div>
+
+<table mat-table *ngIf="sensorReadings && displaySchema">
+  <tr mat-header-row>
+    <th mat-header-cell>
+      Date/Time
+    </th>
+    <th mat-header-cell *ngFor="let point of displaySchema | keyvalue">
+      {{ point.key }}
+    </th>
+  </tr>
+
+  <tr mat-row *ngFor="let sensorReading of sensorReadings">
+    <td mat-cell>
+      {{ sensorReading.date | date: "medium" }}
+    </td>
+    <td mat-cell *ngFor="let point of displaySchema | keyvalue">
+      {{ sensorReading.point_data[point.key] }}
+    </td>
+  </tr>
+</table>

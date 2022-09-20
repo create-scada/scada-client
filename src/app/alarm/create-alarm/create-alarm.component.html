@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Create Alarm</h1>
+
+<mat-dialog-content [formGroup]="alarmForm" (ngSubmit)="onSubmit()">
+  <mat-form-field style="display: block;">
+    <input
+      matInput
+      type="text"
+      formControlName="name"
+      placeholder="Alarm Name"
+    />
+  </mat-form-field>
+
+  <mat-form-field *ngIf="pointDefs">
+    <mat-label>
+      Point
+    </mat-label>
+    <mat-select
+      formControlName="point"
+      #point
+      (selectionChange)="onPointClicked(point.value)"
+    >
+      <mat-option
+        value="{{ item.key }}"
+        *ngFor="let item of pointDefs | keyvalue"
+        >{{ item.key }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
+      Compare
+    </mat-label>
+    <mat-select formControlName="compare">
+      <mat-option value="lt" *ngIf="!isDiscrete">Less Than</mat-option>
+      <mat-option value="eq">Equals</mat-option>
+      <mat-option value="gt" *ngIf="!isDiscrete">Greater Than</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      *ngIf="!isDiscrete"
+      matInput
+      type="number"
+      formControlName="value"
+      placeholder="Value"
+    />
+    <mat-select *ngIf="isDiscrete" formControlName="value">
+      <mat-option value="{{ item }}" *ngFor="let item of pointValues">{{
+        item
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-button
+    [disabled]="!alarmForm.valid"
+    type="button"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</mat-dialog-actions>

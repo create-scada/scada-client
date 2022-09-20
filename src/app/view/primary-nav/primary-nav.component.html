@@ -1,0 +1,24 @@
+<div>
+  <mat-toolbar color="primary" style="display: flex; justify-content: space-between;">
+    <div>
+      <a href="home" mat-button style="font-weight: bold; font-size: 1.2rem;">Lumen Scada</a>
+    </div>
+
+    <div style="display: flex;">
+      <div>
+        <button mat-button [matMenuTriggerFor]="location">Location</button>
+
+        <mat-menu #location="matMenu">
+          <button mat-menu-item (click)="createLocation()">Create</button>
+          <button mat-menu-item (click)="listLocations()">List</button>
+        </mat-menu>
+      </div>
+
+      <div>
+        <a href="simulator" mat-button target="_blank">Simulator</a>
+      </div>
+
+    </div>
+
+  </mat-toolbar>
+</div>

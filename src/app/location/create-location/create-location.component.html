@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Create Location</h1>
+
+<mat-dialog-content [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      formControlName="name"
+      placeholder="Location Name"
+    />
+  </mat-form-field>
+  <p>Image</p>
+
+  <input
+    type="file"
+    formControlName="image"
+    (change)="onFileSelected($event)"
+  />
+
+  <img id="imagePreview" src="" />
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-button
+    [disabled]="!locationForm.valid"
+    type="button"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</mat-dialog-actions>

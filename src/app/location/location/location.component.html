@@ -1,0 +1,50 @@
+<div class="container">
+  <mat-toolbar style="display: flex; justify-content: space-between;">
+    <span *ngIf="location">{{ location.name }}</span>
+
+    <div>
+
+      <button mat-button (click)="viewDetails()" *ngIf="clickedDevice">
+        Details
+      </button>
+
+      <button mat-button [matMenuTriggerFor]="historianMenu" *ngIf="clickedDevice">
+        Historian
+      </button>
+      <mat-menu #historianMenu="matMenu">
+        <button mat-menu-item (click)="viewHistorian()">View</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="alarmsMenu" *ngIf="clickedDevice">
+        Alarms
+      </button>
+      <mat-menu #alarmsMenu="matMenu">
+        <button mat-menu-item (click)="createAlarm()">Create</button>
+        <button mat-menu-item (click)="listAlarms()">List</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="devicesMenu">Device</button>
+      <mat-menu #devicesMenu="matMenu">
+        <button mat-menu-item (click)="createDevice()">Create</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</div>
+
+<div [style.background]="'url(' + location.image_data + ' ) no-repeat center center'" style="width: 100%; height: 70vh;" *ngIf="location">
+  <div style="display: flex; justify-content: center;">
+    <div *ngFor="let device of devices">
+      <app-device [device]="device" [location]="location" (click)="showDeviceMenu(device)"></app-device>
+    </div>
+  </div>
+</div>
+
+<div style="position: fixed; left: 0; bottom: 0; width:100%;">
+  <div class="container">
+  <mat-toolbar style="display: flex; justify-content: space-around;" *ngIf="clickedDevice">
+    <span> RTU: {{ clickedDevice.rtu_address }} </span>
+    <span> Device: {{ clickedDevice.device_address }} </span>
+    <span> Schema: {{ clickedDevice.schema }} </span>
+  </mat-toolbar>
+  </div>
+</div>

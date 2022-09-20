@@ -1,0 +1,10 @@
+<table mat-table>
+    <tr mat-header-row>
+        <th mat-header-cell>Name</th>
+        <th mat-header-cell>Value</th>
+    </tr>
+    <tr mat-row *ngFor="let point of data | keyvalue">
+        <td mat-cell>{{ point.key }}</td>
+        <td mat-cell>{{ point.value }}</td>
+    </tr>
+</table>

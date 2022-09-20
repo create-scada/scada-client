@@ -1,0 +1,19 @@
+<div cdkDrag class="device" 
+     [ngClass]="{'alarm-trigger' : isAlarmTriggered()}" 
+     (cdkDragEnded)="dragEnded($event)"
+     (cdkDragStarted)="dragStarted($event)"
+     [cdkDragFreeDragPosition]="dragPosition">
+
+    <img src="/assets/devices/{{device.image_path}}">
+    
+    <table>
+        <tr *ngFor="let item of device.point_data | keyvalue">
+            <span *ngIf="isDisplayPoint(item.key)">
+                <td>{{item.key}}:</td>
+                <td>{{item.value | roundString }}</td>
+                <td>{{getDataPointUnit(item.key)}}</td>
+            </span>
+        </tr>
+    </table>
+
+</div>

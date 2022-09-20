@@ -1,0 +1,62 @@
+<h1 mat-dialog-title>Create Device</h1>
+
+<mat-dialog-content [formGroup]="deviceForm" (ngSubmit)="onSubmit()">
+  <mat-form-field style="display: block;">
+    <input matInput type="text" formControlName="rtuAddress" placeholder="RTU Address" />
+  </mat-form-field>
+
+  <mat-form-field style="display: block;">
+    <input matInput type="text" formControlName="deviceAddress" placeholder="Device Address" />
+  </mat-form-field>
+
+  <mat-form-field style="display: block;">
+    <mat-label>
+      Image
+    </mat-label>
+    <mat-select formControlName="imagePath">
+      <mat-option value="inverter.svg">Inverter</mat-option>
+      <mat-option value="controller.svg">Controller</mat-option>
+      <mat-option value="solar-panel.svg">Solar Panel</mat-option>
+      <mat-option value="battery.svg">Battery</mat-option>
+      <mat-option value="resistor.svg">Load</mat-option>
+      <mat-option value="weather-station.svg">Weather</mat-option>
+      <mat-option value="wind.svg">Wind</mat-option>
+      <mat-option value="thermometer.svg">Thermometer</mat-option>
+      <mat-option value="sun.svg">Sun</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="display: block;">
+    <mat-label>
+      Driver Schema
+    </mat-label>
+    <mat-select formControlName="schema" #schema (selectionChange)="schemaClicked(schema.value)">
+      <mat-option *ngFor="let item of refSchema | keyvalue" value="{{ item.key }}">{{ item.key }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="pointDefs" style="display: block;">
+    <mat-label>
+      Point
+    </mat-label>
+    <mat-select #displayPoint (selectionChange)="addDisplayPoint(displayPoint.value)">
+      <mat-option value="{{ item.key }}" *ngFor="let item of pointDefs | keyvalue">{{ item.key }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="displayPoints.length > 0">
+    <p>Display Points</p>
+    <label *ngFor="let displayPoint of displayPoints">
+      {{ displayPoint.name }}
+    </label>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" type="button">
+    Cancel
+  </button>
+  <button mat-button type="button" [disabled]="!deviceForm.valid" (click)="onSubmit()">
+    Submit
+  </button>
+</mat-dialog-actions>

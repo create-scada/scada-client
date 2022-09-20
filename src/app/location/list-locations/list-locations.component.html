@@ -1,0 +1,5 @@
+<h1 mat-dialog-title>Locations</h1>
+
+<div *ngFor="let location of locations || []" style="margin-bottom: 15px;">
+    <a mat-raised-button color="primary" href="location/{{ location.id }}">{{ location.name }}</a>
+</div>

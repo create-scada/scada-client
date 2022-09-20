@@ -1,0 +1,18 @@
+table {
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+mat-card {
+  width: 500px;
+  margin: auto;
+}
+
+button {
+  margin-left: auto;
+}

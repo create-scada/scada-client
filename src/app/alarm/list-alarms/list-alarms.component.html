@@ -1,0 +1,21 @@
+<table mat-table>
+  <tr mat-header-row>
+    <th mat-header-cell>Name</th>
+    <th mat-header-cell>Point</th>
+    <th mat-header-cell>Compare</th>
+    <th mat-header-cell>Value</th>
+    <th mat-header-cell>Triggered</th>
+  </tr>
+  <tr mat-row *ngFor="let alarm of alarms || []">
+    <td mat-cell>{{ alarm.name }}</td>
+    <td mat-cell>{{ alarm.point }}</td>
+    <td mat-cell>{{ alarm.compare }}</td>
+    <td mat-cell>{{ alarm.value }}</td>
+    <td mat-cell>
+      {{ alarm.is_triggered }}
+      <button mat-button (click)="reset(alarm.id)" *ngIf="alarm.triggered">
+        Reset
+      </button>
+    </td>
+  </tr>
+</table>
