@@ -6,8 +6,6 @@ export const environment = {
   production: false,
   // Local Dev
   apiEndpoint: "http://127.0.0.1:5000"
-  // Production
-  // apiEndpoint: "https://scada-server.irsccsdept.org"
 };
 
 /*
