@@ -13,6 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 import { Alarm, Device } from "../../model";
 import { GlobalData } from "src/app/app.config";
+import { AlarmService } from "src/app/services/src/app/services/alarm.service";
 
 @Component({
   selector: "app-create-alarm",
@@ -40,6 +41,7 @@ export class CreateAlarmComponent implements OnInit {
     private fb: FormBuilder,
     private G: GlobalData,
     public dialogRef: MatDialogRef<CreateAlarmComponent>,
+    private alarmService: AlarmService,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.device = data.device;
@@ -77,19 +79,36 @@ export class CreateAlarmComponent implements OnInit {
       data_type: data_type
     };
 
-    this.http
-      .post<Alarm>(
-        `${env.apiEndpoint}/locations/${this.locationId}/devices/${this.device.id}/alarms`,
-        alarm,
-        { headers: this.G.getHeaders() }
-      )
-      .subscribe(
-        (response: Alarm) => {
-          this.dialogRef.close(response);
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
-        }
-      );
+    // this.http
+    //   .post<Alarm>(
+    //     `${env.apiEndpoint}/locations/${this.locationId}/devices/${this.device.id}/alarms`,
+    //     alarm,
+    //     { headers: this.G.getHeaders() }
+    //   )
+    //   .subscribe(
+    //     (response: Alarm) => {
+    //       this.dialogRef.close(response);
+    //     },
+    //     (error: HttpErrorResponse) => {
+    //       console.log("Error is " + error);
+    //     }
+    //   );
+    
+    this.create(alarm, this.device, this.locationId) 
+    
   }
+
+  create(alarm: Alarm, device: Device, locationId) : void {
+    this.alarmService.createAlarm(alarm, device, locationId)
+    .subscribe(
+      (response: Alarm) => {
+        this.dialogRef.close(response);
+      },
+      (error: HttpErrorResponse) => {
+        console.log("Error is " + error);
+      })
+
+  }
+
+
 }
