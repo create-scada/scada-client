@@ -76,33 +76,12 @@ export class CreateAlarmComponent implements OnInit {
       is_triggered: false,
       data_type: data_type
     };
-
-    // this.http
-    //   .post<Alarm>(
-    //     `${env.apiEndpoint}/locations/${this.locationId}/devices/${this.device.id}/alarms`,
-    //     alarm,
-    //     { headers: this.G.getHeaders() }
-    //   )
-    //   .subscribe(
-    //     (response: Alarm) => {
-    //       this.dialogRef.close(response);
-    //     },
-    //     (error: HttpErrorResponse) => {
-    //       console.log("Error is " + error);
-    //     }
-    //   );
     
-    this.create(alarm, this.device, this.locationId) 
-    
-  }
-
-  create(alarm: Alarm, device: Device, locationId) : void {
-    this.alarmService.createAlarm(alarm, device, locationId)
-    .subscribe(
-      (response: Alarm) => {
-        this.dialogRef.close(response);
-      })
-  }
-
-
+    this.alarmService.createAlarm(alarm, this.device, this.locationId)
+      .subscribe(
+        (response: Alarm) => {
+          this.dialogRef.close(response);
+        })
+    }
+  
 }

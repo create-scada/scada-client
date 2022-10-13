@@ -20,16 +20,35 @@ export class AlarmService {
     private G: GlobalData
   ) { }
 
-createAlarm(alarm: Alarm, device, locationId): Observable<Alarm> {
+getAlarms(device, locationId): Observable<Alarm[]> {
+  return this.http.get<Alarm[]>(
+      `${env.apiEndpoint}/locations/${locationId}/devices/${device.id}/alarms`,
+      { headers: this.G.getHeaders() })
+        .pipe(
+          catchError(this.handleError<Alarm[]>())
+        )
   
-  return this.http.post<Alarm>(
-    `${env.apiEndpoint}/locations/${locationId}/devices/${device.id}/alarms`,
-    alarm,
-    { headers: this.G.getHeaders() })
-      .pipe(
-        catchError(this.handleError<Alarm>())
-      )
+}
 
+createAlarm(alarm: Alarm, device, locationId): Observable<Alarm> {
+return this.http.post<Alarm>(
+  `${env.apiEndpoint}/locations/${locationId}/devices/${device.id}/alarms`,
+  alarm,
+  { headers: this.G.getHeaders() })
+    .pipe(
+      catchError(this.handleError<Alarm>())
+    )
+}
+
+resetAlarm(alarmId: number, locationId, deviceId): Observable<Alarm> {
+  return this.http.put<Alarm>(
+    `${env.apiEndpoint}/locations/${locationId}/devices/${deviceId}/alarms/${alarmId}`,
+    {},
+    { headers: this.G.getHeaders() }
+  )
+  .pipe(
+    catchError(this.handleError<Alarm>())
+  )
 }
 
 private handleError<T>(result?: T) {
@@ -37,7 +56,6 @@ private handleError<T>(result?: T) {
     console.log("Error is " + error)
     console.error(error);
     return of (result as T)
-
   }
 }
 

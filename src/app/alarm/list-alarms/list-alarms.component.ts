@@ -13,6 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 import { Alarm, Device } from "../../model";
 import { GlobalData } from "src/app/app.config";
+import { AlarmService } from "src/app/services/src/app/services/alarm.service";
 
 @Component({
   selector: "app-list-alarms",
@@ -27,7 +28,7 @@ export class ListAlarmsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
+    private alarmService: AlarmService,
     private fb: FormBuilder,
     private G: GlobalData,
     public dialogRef: MatDialogRef<ListAlarmsComponent>,
@@ -39,28 +40,15 @@ export class ListAlarmsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http
-      .get<Alarm[]>(
-        `${env.apiEndpoint}/locations/${this.locationId}/devices/${this.deviceId}/alarms`,
-        { headers: this.G.getHeaders() }
-      )
+    this.alarmService.getAlarms(this.deviceId, this.locationId)
       .subscribe(
         response => {
           this.alarms = response;
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
-        }
-      );
+        })
   }
 
   reset(alarmId: number) {
-    this.http
-      .put(
-        `${env.apiEndpoint}/locations/${this.locationId}/devices/${this.deviceId}/alarms/${alarmId}`,
-        {},
-        { headers: this.G.getHeaders() }
-      )
+    this.alarmService.resetAlarm(alarmId, this.locationId, this.deviceId)
       .subscribe(
         response => { },
         (error: HttpErrorResponse) => {

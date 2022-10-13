@@ -1,13 +1,7 @@
-import { environment as env } from "../environments/environment";
 import { Component } from "@angular/core";
 
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders
-} from "@angular/common/http";
-
 import { GlobalData } from "./app.config";
+import { AppService } from "./services/src/app/services/app.service";
 
 @Component({
   selector: "app-root",
@@ -15,15 +9,17 @@ import { GlobalData } from "./app.config";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  constructor(private http: HttpClient, private G: GlobalData) { }
+  constructor(
+    private G: GlobalData,
+    private appService: AppService
+    ) { }
 
   ngOnInit() {
-    this.http.get<string>(
-      `${env.apiEndpoint}/schema`,
-      { headers: this.G.getHeaders() }
-    ).subscribe(schema => {
+    this.appService.getSchema()
+    .subscribe(
+      schema => {
       this.G.setSchema(schema);
       let s = this.G.getSchema();
-    });
+      });
   }
 }

@@ -10,10 +10,6 @@ import {
 } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import {
-  HttpClient,
-  HttpErrorResponse
-} from "@angular/common/http";
-import {
   FormGroup,
   FormControl,
   Validators,
@@ -22,6 +18,7 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Device, DisplayPoint } from "../../model";
 import { GlobalData } from "src/app/app.config";
+import { DeviceService } from "src/app/services/src/app/services/device.service";
 
 @Component({
   selector: "app-create-device",
@@ -43,7 +40,7 @@ export class CreateDeviceComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
+    private deviceService: DeviceService,
     private fb: FormBuilder,
     public G: GlobalData,
     public dialogRef: MatDialogRef<CreateDeviceComponent>,
@@ -84,19 +81,11 @@ export class CreateDeviceComponent implements OnInit {
       alarms: null
     };
 
-    this.http
-      .post<Device>(
-        `${env.apiEndpoint}/locations/${this.locationId}/devices`,
-        device,
-        { headers: this.G.getHeaders() }
-      )
+    this.deviceService.createDevice(device, this.locationId)
       .subscribe(
         (response: Device) => {
           this.dialogRef.close(response);
         },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
-        }
       );
   }
 
