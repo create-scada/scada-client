@@ -2,7 +2,6 @@ import { environment as env } from "../../../environments/environment";
 
 import { Component, OnInit, Inject } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   FormGroup,
   FormControl,
@@ -37,7 +36,6 @@ export class CreateAlarmComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
     private fb: FormBuilder,
     private G: GlobalData,
     public dialogRef: MatDialogRef<CreateAlarmComponent>,
@@ -103,11 +101,7 @@ export class CreateAlarmComponent implements OnInit {
     .subscribe(
       (response: Alarm) => {
         this.dialogRef.close(response);
-      },
-      (error: HttpErrorResponse) => {
-        console.log("Error is " + error);
       })
-
   }
 
 
