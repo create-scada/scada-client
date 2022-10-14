@@ -2,7 +2,6 @@ import { environment as env } from "../../environments/environment";
 
 import { Component, OnInit } from '@angular/core';
 
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   FormGroup,
   FormControl,
@@ -12,6 +11,7 @@ import {
 import { GlobalData } from '../app.config';
 import { SimulatorRun } from '../model';
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { AppService } from "../services/src/app/services/app.service";
 
 @Component({
   selector: 'app-simulator',
@@ -30,7 +30,7 @@ export class SimulatorComponent implements OnInit {
   });
 
   constructor(
-    private http: HttpClient,
+    private appService: AppService,
     private fb: FormBuilder,
     private G: GlobalData,
     private snackBar: MatSnackBar
@@ -41,8 +41,7 @@ export class SimulatorComponent implements OnInit {
   }
 
   getLabs() {
-    this.http.get(`${env.apiEndpoint}/simulator-labs`,
-      { headers: this.G.getHeaders() })
+    this.appService.getLabs()
       .subscribe(
         (response: Map<string, Array<string>>) => {
           this.simulator = response;
@@ -50,9 +49,6 @@ export class SimulatorComponent implements OnInit {
             this.labs.push(key);
           }
         },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
-        }
       );
   }
 
@@ -74,21 +70,13 @@ export class SimulatorComponent implements OnInit {
       step: stepName
     };
 
-    this.http
-      .post<SimulatorRun>(
-        `${env.apiEndpoint}/simulator-labs`,
-        simulatorRun,
-        { headers: this.G.getHeaders() }
-      )
+    this.appService.createSimRun(simulatorRun)
       .subscribe(
         (response) => {
           this.snackBar.open(`Simulation Data Successful`, "Dismiss", {
             duration: 5000,
           });
         },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
-        }
       );
   }
 

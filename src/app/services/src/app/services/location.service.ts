@@ -17,15 +17,47 @@ export class LocationService {
     private http: HttpClient,
     private G: GlobalData
   ) { }
-}
 
-
-
-
-private handleError<T>(result?: T) {
-  return(error: any): Observable<T> => {
-    console.log("Error is " + error)
-    console.error(error);
-    return of (result as T)
+  createLocation(): Observable<Location> {
+    return this.http.post<Location>(
+      `${env.apiEndpoint}/locations`,
+      location,
+    { headers: this.G.getHeaders() }
+    )
+    .pipe(
+      catchError(this.handleError<Location>())
+    )  
   }
+
+  getLocation(id): Observable<Location> {
+    return this.http.get<Location>(`${env.apiEndpoint}/locations/${id}`,
+    { headers: this.G.getHeaders() }
+    )
+    .pipe(
+      catchError(this.handleError<Location>())
+    )  
+  }
+
+  getLocations(): Observable<Location[]>{
+    return this.http.get<Location[]>(
+      `${env.apiEndpoint}/locations`,
+      { headers: this.G.getHeaders() }
+    )
+    .pipe(
+      catchError(this.handleError<Location[]>())
+    )  
+
+  }
+  
+  private handleError<T>(result?: T) {
+    return(error: any): Observable<T> => {
+      console.log("Error is " + error)
+      console.error(error);
+      return of (result as T)
+    }
+  }  
 }
+
+
+
+

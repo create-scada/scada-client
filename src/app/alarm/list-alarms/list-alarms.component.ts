@@ -2,7 +2,6 @@ import { environment as env } from "../../../environments/environment";
 
 import { Component, OnInit, Inject } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   FormGroup,
   FormControl,
@@ -50,10 +49,7 @@ export class ListAlarmsComponent implements OnInit {
   reset(alarmId: number) {
     this.alarmService.resetAlarm(alarmId, this.locationId, this.deviceId)
       .subscribe(
-        response => { },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
-        }
+        response => { }
       );
   }
 }

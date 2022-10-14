@@ -2,10 +2,6 @@ import { environment as env } from "../../environments/environment";
 
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-import {
-  HttpClient,
-  HttpErrorResponse
-} from "@angular/common/http";
 
 import {
   FormGroup,
@@ -20,6 +16,8 @@ import { Device, Location, Alarm, SensorReading } from "../model";
 import { GlobalData } from "src/app/app.config";
 
 import { saveAs } from 'file-saver';
+import { HistorianService } from "../services/src/app/services/historian.service";
+import { DeviceService } from "../services/src/app/services/device.service";
 
 @Component({
   selector: "app-historian",
@@ -45,7 +43,8 @@ export class HistorianComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
+    private historianService: HistorianService,
+    private deviceService: DeviceService,
     private G: GlobalData,
     private fb: FormBuilder,
     private dialog: MatDialog
@@ -59,11 +58,7 @@ export class HistorianComponent implements OnInit {
     this.deviceId = this.route.snapshot.paramMap.get("deviceId");
     this.locationId = this.route.snapshot.paramMap.get("locationId");
 
-    await this.http
-      .get<Device>(
-        `${env.apiEndpoint}/locations/${this.locationId}/devices/${this.deviceId}`,
-        { headers: this.G.getHeaders() }
-      )
+    await this.deviceService.getDevice(this.locationId, this.deviceId)
       .toPromise()
       .then(device => {
         this.device = device;
@@ -107,18 +102,10 @@ export class HistorianComponent implements OnInit {
   onSubmitDownload() {
     let queryString = this.getQueryString();
     let url = `${env.apiEndpoint}/historian-export/rtu-address/${this.device.rtu_address}/device-address/${this.device.device_address}?${queryString}`;
-    this.http.get(
-      url,
-      {
-        headers: this.G.getHeaders(),
-        responseType: "blob"
-      }
-    ).subscribe(data => {
+    this.historianService.getExport(url)
+    .subscribe(data => {
       saveAs(data, "scada.csv");
     },
-      (error: HttpErrorResponse) => {
-        console.log("Error is " + error.message);
-      }
     );
 
   }
@@ -128,33 +115,18 @@ export class HistorianComponent implements OnInit {
     let queryString = this.getQueryString();
     let url = `${env.apiEndpoint}/historian/rtu-address/${this.device.rtu_address}/device-address/${this.device.device_address}/point/${this.plotPoint}/plot?${queryString}`;
 
-    this.http.get(
-      url,
-      {
-        headers: this.G.getHeaders(),
-        responseType: "blob"
-      }
-    ).subscribe(data => {
-      this.dataPlot.nativeElement.src = URL.createObjectURL(data);
+    this.historianService.getPlot(url)
+    .subscribe(data => {
+      this.dataPlot.nativeElement.src = URL.createObjectURL(data as Blob);
     },
-      (error: HttpErrorResponse) => {
-        console.log("Error is " + error.message);
-      }
     );
   }
 
   displayData() {
-    this.http
-      .get<SensorReading[]>(
-        `${env.apiEndpoint}/historian/rtu-address/${this.device.rtu_address}/device-address/${this.device.device_address}`,
-        { headers: this.G.getHeaders() }
-      )
+    this.historianService.getReading(this.device)
       .subscribe(
         sensorReadings => {
           this.sensorReadings = sensorReadings;
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
         }
       );
   }

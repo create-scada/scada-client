@@ -27,7 +27,6 @@ getAlarms(device, locationId): Observable<Alarm[]> {
         .pipe(
           catchError(this.handleError<Alarm[]>())
         )
-  
 }
 
 createAlarm(alarm: Alarm, device, locationId): Observable<Alarm> {

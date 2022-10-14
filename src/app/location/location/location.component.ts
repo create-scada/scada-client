@@ -2,10 +2,6 @@ import { environment as env } from "../../../environments/environment";
 
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-import {
-  HttpClient,
-  HttpErrorResponse
-} from "@angular/common/http";
 import { CreateDeviceComponent } from "../create-device/create-device.component";
 
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -16,6 +12,8 @@ import { Device, Location, Alarm, SensorReading } from "../../model";
 import { GlobalData } from "src/app/app.config";
 import { ListAlarmsComponent } from "src/app/alarm/list-alarms/list-alarms.component";
 import { ViewDeviceComponent } from "../view-device/view-device.component";
+import { DeviceService } from "src/app/services/src/app/services/device.service";
+import { LocationService } from "src/app/services/src/app/services/location.service";
 
 @Component({
   selector: "app-location",
@@ -32,25 +30,19 @@ export class LocationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
+    private deviceService: DeviceService,
+    private locationService: LocationService,
     private G: GlobalData,
     private dialog: MatDialog
   ) { }
 
   initCanvas() {
 
-    this.http
-      .get<Device[]>(
-        `${env.apiEndpoint}/locations/${this.id}/devices`,
-        { headers: this.G.getHeaders() }
-      )
+    this.deviceService.getDevices(this.id)
       .subscribe(
         response => {
           this.devices = response;
           setInterval(() => this.refreshSensorData(), 3000);
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
         }
       );
   }
@@ -140,17 +132,10 @@ export class LocationComponent implements OnInit {
       return;
     }
 
-    this.http
-      .get<Device[]>(
-        `${env.apiEndpoint}/locations/${this.id}/devices`,
-        { headers: this.G.getHeaders() }
-      )
+    this.deviceService.getDevices(this.id)
       .subscribe(
         response => {
           this.devices = response;
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
         }
       );
   }
@@ -158,17 +143,11 @@ export class LocationComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
 
-    this.http
-      .get<Location>(`${env.apiEndpoint}/locations/${this.id}`,
-        { headers: this.G.getHeaders() }
-      )
+    this.locationService.getLocation(this.id)
       .subscribe(
         response => {
-          this.location = response;
+          location = response;
           this.initCanvas();
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
         }
       );
   }

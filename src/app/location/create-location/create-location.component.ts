@@ -3,10 +3,6 @@ import { environment as env } from "../../../environments/environment";
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import {
-  HttpClient,
-  HttpErrorResponse
-} from "@angular/common/http";
-import {
   FormGroup,
   FormControl,
   Validators,
@@ -16,6 +12,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 
 import { Location } from "../../model";
 import { GlobalData } from 'src/app/app.config';
+import { LocationService } from "src/app/services/src/app/services/location.service";
 
 @Component({
   selector: "app-create-location",
@@ -33,7 +30,7 @@ export class CreateLocationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
+    private locationService: LocationService,
     private fb: FormBuilder,
     private G: GlobalData,
     public dialogRef: MatDialogRef<CreateLocationComponent>
@@ -63,17 +60,11 @@ export class CreateLocationComponent implements OnInit {
       image_data: this.imageData
     };
 
-    this.http
-      .post<Location>(`${env.apiEndpoint}/locations`,
-        location,
-        { headers: this.G.getHeaders() })
+    this.locationService.createLocation()
       .subscribe(
         response => {
           this.dialogRef.close(response);
         },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error.message);
-        }
       );
   }
 

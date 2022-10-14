@@ -27,7 +27,39 @@ export class DeviceService {
     .pipe(
       catchError(this.handleError<Device>())
     )
- } 
+ }
+ 
+ getDevice(locationId, deviceId):Observable<Device> {
+  return this.http.get<Device>(
+    `${env.apiEndpoint}/locations/${locationId}/devices/${deviceId}`,
+    { headers: this.G.getHeaders() }
+  )
+  .pipe(
+    catchError(this.handleError<Device>())
+  )
+ }
+
+ getDevices(id): Observable<Device[]>{
+  return this.http.get<Device[]>(
+    `${env.apiEndpoint}/locations/${id}/devices`,
+    { headers: this.G.getHeaders() }
+  )  
+    .pipe(
+    catchError(this.handleError<Device[]>())
+  )
+
+ }
+
+ updateDevice(location, device): Observable<Device>{
+  return this.http.put<Device>(
+    `${env.apiEndpoint}/locations/${location.id}/devices/${device.id}/canvas-parms`,
+    device,
+    { headers: this.G.getHeaders() }
+  )
+  .pipe(
+    catchError(this.handleError<Device>())
+  )
+ }
  
  private handleError<T>(result?: T) {
   return(error: any): Observable<T> => {

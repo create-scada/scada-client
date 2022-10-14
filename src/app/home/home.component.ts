@@ -1,12 +1,9 @@
-import { environment as env } from "../../environments/environment";
-
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalData } from '../app.config';
-import { Connection } from '../model';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppService } from "../services/src/app/services/app.service";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private appService: AppService,
     private G: GlobalData,
     private snackBar: MatSnackBar
   ) { }
@@ -28,9 +25,7 @@ export class HomeComponent implements OnInit {
 
   startLabSession() {
 
-    this.http
-      .get<Connection>(`${env.apiEndpoint}/connection`,
-        { headers: this.G.getHeaders() })
+    this.appService.getConnection()
       .subscribe(
         response => {
           this.G.setConnId(response.connId);
@@ -38,9 +33,6 @@ export class HomeComponent implements OnInit {
             duration: 5000,
           });
         },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error.message);
-        }
       );
   }
 

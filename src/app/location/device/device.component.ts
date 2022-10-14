@@ -1,9 +1,9 @@
 import { environment as env } from "../../../environments/environment";
 import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { GlobalData } from 'src/app/app.config';
 import { Device, Location } from 'src/app/model';
+import { DeviceService } from "src/app/services/src/app/services/device.service";
 
 @Component({
   selector: 'app-device',
@@ -21,7 +21,7 @@ export class DeviceComponent implements OnInit {
   dragPosition = {x: 0, y: 0};
 
   constructor(
-    private http: HttpClient,
+    private deviceService: DeviceService,
     private G: GlobalData,
   ) { }
 
@@ -72,17 +72,9 @@ export class DeviceComponent implements OnInit {
     this.device.y = position.y;
 
 
-    this.http
-      .put(
-        `${env.apiEndpoint}/locations/${this.location.id}/devices/${this.device.id}/canvas-parms`,
-        this.device,
-        { headers: this.G.getHeaders() }
-      )
+    this.deviceService.updateDevice(this.location, this.device)
       .subscribe(
         response => {
-        },
-        (error: HttpErrorResponse) => {
-          console.log("Error is " + error);
         }
       );
   }
