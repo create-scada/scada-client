@@ -10,9 +10,9 @@ import {
 } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 
-import { Location } from "../../model";
 import { GlobalData } from 'src/app/app.config';
 import { LocationService } from "src/app/services/src/app/services/location.service";
+import { Location } from 'src/app/model';
 
 @Component({
   selector: "app-create-location",
@@ -60,7 +60,7 @@ export class CreateLocationComponent implements OnInit {
       image_data: this.imageData
     };
 
-    this.locationService.createLocation()
+    this.locationService.createLocation(location)
       .subscribe(
         response => {
           this.dialogRef.close(response);

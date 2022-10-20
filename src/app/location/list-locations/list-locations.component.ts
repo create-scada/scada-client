@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalData } from 'src/app/app.config';
 import { LocationService } from "src/app/services/src/app/services/location.service";
+import { Location } from 'src/app/model';
 
 @Component({
   selector: 'app-list-locations',

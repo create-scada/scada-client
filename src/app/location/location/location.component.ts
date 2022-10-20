@@ -8,7 +8,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import { CreateAlarmComponent } from "src/app/alarm/create-alarm/create-alarm.component";
 
-import { Device, Location, Alarm, SensorReading } from "../../model";
+import { Device, Location, Alarm, SensorReading } from "src/app/model";
 import { GlobalData } from "src/app/app.config";
 import { ListAlarmsComponent } from "src/app/alarm/list-alarms/list-alarms.component";
 import { ViewDeviceComponent } from "../view-device/view-device.component";
@@ -146,7 +146,7 @@ export class LocationComponent implements OnInit {
     this.locationService.getLocation(this.id)
       .subscribe(
         response => {
-          location = response;
+          this.location = response;
           this.initCanvas();
         }
       );

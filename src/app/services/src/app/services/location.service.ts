@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { GlobalData } from 'src/app/app.config';
+import { Location } from 'src/app/model';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class LocationService {
     private G: GlobalData
   ) { }
 
-  createLocation(): Observable<Location> {
+  createLocation(location: Location): Observable<Location> {
     return this.http.post<Location>(
       `${env.apiEndpoint}/locations`,
       location,
