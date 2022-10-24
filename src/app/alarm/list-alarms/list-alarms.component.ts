@@ -1,5 +1,3 @@
-import { environment as env } from "../../../environments/environment";
-
 import { Component, OnInit, Inject } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import {
@@ -39,7 +37,7 @@ export class ListAlarmsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.alarmService.getAlarms(this.deviceId, this.locationId)
+    this.alarmService.getAlarms(this.deviceId,this.locationId)
       .subscribe(
         response => {
           this.alarms = response;

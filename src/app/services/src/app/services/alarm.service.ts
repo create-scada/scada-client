@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators' 
 
-import { Alarm } from "../../../../model";
+import { Alarm, Device } from "../../../../model";
 import { GlobalData } from '../../../../app.config';
 
 
@@ -20,9 +20,9 @@ export class AlarmService {
     private G: GlobalData
   ) { }
 
-getAlarms(device, locationId): Observable<Alarm[]> {
+getAlarms(deviceId, locationId): Observable<Alarm[]> {
   return this.http.get<Alarm[]>(
-      `${env.apiEndpoint}/locations/${locationId}/devices/${device.id}/alarms`,
+      `${env.apiEndpoint}/locations/${locationId}/devices/${deviceId}/alarms`,
       { headers: this.G.getHeaders() })
         .pipe(
           catchError(this.handleError<Alarm[]>())
