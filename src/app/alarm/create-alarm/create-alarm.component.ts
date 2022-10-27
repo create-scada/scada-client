@@ -1,5 +1,3 @@
-import { environment as env } from "../../../environments/environment";
-
 import { Component, OnInit, Inject } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import {
@@ -11,8 +9,8 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 import { Alarm, Device } from "../../model";
-import { GlobalData } from "src/app/app.config";
-import { AlarmService } from "src/app/services/src/app/services/alarm.service";
+import { GlobalData } from "../../app.config";
+import { AlarmService } from "../../services/src/app/services/alarm.service";
 
 @Component({
   selector: "app-create-alarm",
@@ -30,8 +28,8 @@ export class CreateAlarmComponent implements OnInit {
   public locationId: number;
   public device: Device;
   public isDiscrete: boolean = false;
-  public pointValues: string[];
-  public pointDefs: Object = null;
+  public pointValues: string[]= [];
+  public pointDefs: Object = {};
 
   constructor(
     private route: ActivatedRoute,
