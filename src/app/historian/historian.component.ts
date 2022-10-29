@@ -7,7 +7,9 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  FormBuilder
+  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormControl
 } from "@angular/forms";
 
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -35,10 +37,12 @@ export class HistorianComponent implements OnInit {
   public displayPoints: string[] = new Array<string>();
   public plotPoint: string = "";
 
-  searchForm = this.fb.group({
-    gt_date: [""],
-    lt_date: [""]
+  searchForm = new UntypedFormGroup({
+    gt_date: new UntypedFormControl(''),
+    lt_date: new UntypedFormControl(''),
   });
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -73,7 +77,7 @@ export class HistorianComponent implements OnInit {
             this.searchForm.addControl("lt_" + pointName, new FormControl(""));
             this.searchForm.addControl("gt_" + pointName, new FormControl(""));
           } else if (data_type == "discrete") {
-            this.searchForm.addControl("eq_" + pointName, new FormControl(""));
+            this.searchForm.addControl<string>("eq_" + pointName, new FormControl(""));
           }
         }
 
