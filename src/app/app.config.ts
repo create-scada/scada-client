@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class GlobalData {
-  private schema: Object = null;
   private pauseRefresh: Boolean = false;
 
   private http_headers = new HttpHeaders({
