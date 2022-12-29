@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { CreateLocationComponent } from "../../location/create-location/create-location.component";
-import { CreateAlarmComponent } from "src/app/alarm/create-alarm/create-alarm.component";
 
 import { Location } from "../../model";
 import { ListLocationsComponent } from "src/app/location/list-locations/list-locations.component";

@@ -1,12 +1,8 @@
 .device {
-    display:flex;
+    display: flex;
     flex-direction: column;
     padding: 15px;
     height: 100px;
-}
-
-.alarm-trigger {
-    border: 1px solid red;
 }
 
 table {

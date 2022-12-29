@@ -12,14 +12,16 @@ export class AppComponent {
   constructor(
     private G: GlobalData,
     private appService: AppService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.appService.getSchema()
-    .subscribe(
-      schema => {
-      this.G.setSchema(schema);
-      let s = this.G.getSchema();
-      });
+      .subscribe(
+        schema => {
+          // dotnet webapi backend returns as a string instead of a proper JSON object
+          schema = JSON.parse(schema);
+          this.G.setSchema(schema);
+          let s = this.G.getSchema();
+        });
   }
 }

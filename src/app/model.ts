@@ -1,27 +1,20 @@
-export interface Connection {
-  connId: string;
-}
-
 export interface Location {
   id: number;
   name: string;
-  image_data: string;
+  imageData: string;
 }
 
 export interface Device {
   id: number;
-  rtu_address: string;
-  device_address: string;
+  locationId: number;
+  rtuAddress: string;
+  deviceAddress: string;
   schema: string;
-  point_data: Object;
+  pointData: Object;
   x: number;
   y: number;
-  width: number;
-  height: number;
-  rotation: number;
-  image_path: string;
-  display_points: DisplayPoint[];
-  alarms: Alarm[];
+  imagePath: string;
+  displayPoints: DisplayPoint[];
 }
 
 export interface DisplayPoint {
@@ -29,26 +22,10 @@ export interface DisplayPoint {
   name: string;
 }
 
-export interface Alarm {
-  id: number;
-  device: Device;
-  name: string;
-  point: string;
-  compare: string;
-  value: string;
-  is_triggered: boolean;
-  data_type: string;
-}
-
-export interface SensorReading {
-  rtu_address: string;
-  device_address: string;
+export interface Reading {
+  rtuAddress: string;
+  deviceAddress: string;
   schema: string;
   date: Date;
-  point_data: Object;
-}
-
-export interface SimulatorRun {
-  lab: string;
-  step: string;
+  pointData: Object;
 }

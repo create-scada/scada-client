@@ -19,54 +19,54 @@ export class DeviceService {
     private G: GlobalData
   ) { }
 
- createDevice(device: Device, locationId):Observable<Device> {
-  return this.http.post<Device>(
-    `${env.apiEndpoint}/locations/${locationId}/devices`,
-    device,
-    { headers: this.G.getHeaders() })
-    .pipe(
-      catchError(this.handleError<Device>())
-    )
- }
- 
- getDevice(locationId, deviceId):Observable<Device> {
-  return this.http.get<Device>(
-    `${env.apiEndpoint}/locations/${locationId}/devices/${deviceId}`,
-    { headers: this.G.getHeaders() }
-  )
-  .pipe(
-    catchError(this.handleError<Device>())
-  )
- }
-
- getDevices(id): Observable<Device[]>{
-  return this.http.get<Device[]>(
-    `${env.apiEndpoint}/locations/${id}/devices`,
-    { headers: this.G.getHeaders() }
-  )  
-    .pipe(
-    catchError(this.handleError<Device[]>())
-  )
-
- }
-
- updateDevice(location, device): Observable<Device>{
-  return this.http.put<Device>(
-    `${env.apiEndpoint}/locations/${location.id}/devices/${device.id}/canvas-parms`,
-    device,
-    { headers: this.G.getHeaders() }
-  )
-  .pipe(
-    catchError(this.handleError<Device>())
-  )
- }
- 
- private handleError<T>(result?: T) {
-  return(error: any): Observable<T> => {
-    console.log("Error is " + error)
-    console.error(error);
-    return of (result as T)
+  createDevice(device: Device): Observable<Device> {
+    return this.http.post<Device>(
+      `${env.apiEndpoint}/devices`,
+      device,
+      { headers: this.G.getHeaders() })
+      .pipe(
+        catchError(this.handleError<Device>())
+      )
   }
-}
+
+  getDevice(deviceId): Observable<Device> {
+    return this.http.get<Device>(
+      `${env.apiEndpoint}/devices/${deviceId}`,
+      { headers: this.G.getHeaders() }
+    )
+      .pipe(
+        catchError(this.handleError<Device>())
+      )
+  }
+
+  getDevices(id): Observable<Device[]> {
+    return this.http.get<Device[]>(
+      `${env.apiEndpoint}/devices?locationId=${id}`,
+      { headers: this.G.getHeaders() }
+    )
+      .pipe(
+        catchError(this.handleError<Device[]>())
+      )
+
+  }
+
+  updateDeviceCanvasCoord(device): Observable<Device> {
+    return this.http.put<Device>(
+      `${env.apiEndpoint}/devicecanvascoord/${device.id}`,
+      device,
+      { headers: this.G.getHeaders() }
+    )
+      .pipe(
+        catchError(this.handleError<Device>())
+      )
+  }
+
+  private handleError<T>(result?: T) {
+    return (error: any): Observable<T> => {
+      console.log("Error is " + error)
+      console.error(error);
+      return of(result as T)
+    }
+  }
 
 }

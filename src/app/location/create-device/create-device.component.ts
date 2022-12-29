@@ -32,7 +32,7 @@ export class CreateDeviceComponent implements OnInit {
     schema: ["", Validators.required],
     imagePath: ["", Validators.required]
   });
-  locationId: string;
+  locationId: number;
   public pointDefs: Object = null;
   public displayPoints: DisplayPoint[] = new Array();
   public refSchema: Object;
@@ -46,7 +46,7 @@ export class CreateDeviceComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateDeviceComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
-    this.locationId = data.locationId;
+    this.locationId = parseInt(data.locationId);
     this.refSchema = this.G.getSchema();
   }
 
@@ -67,21 +67,18 @@ export class CreateDeviceComponent implements OnInit {
   onSubmit() {
     const device: Device = {
       id: 0,
-      rtu_address: this.deviceForm.get("rtuAddress").value,
-      device_address: this.deviceForm.get("deviceAddress").value,
+      locationId: this.locationId,
+      rtuAddress: this.deviceForm.get("rtuAddress").value,
+      deviceAddress: this.deviceForm.get("deviceAddress").value,
       schema: this.deviceForm.get("schema").value,
-      point_data: null,
+      pointData: null,
       x: 0,
       y: 0,
-      width: 0,
-      height: 0,
-      rotation: 0,
-      image_path: this.deviceForm.get("imagePath").value,
-      display_points: this.displayPoints,
-      alarms: null
+      imagePath: this.deviceForm.get("imagePath").value,
+      displayPoints: this.displayPoints,
     };
 
-    this.deviceService.createDevice(device, this.locationId)
+    this.deviceService.createDevice(device)
       .subscribe(
         (response: Device) => {
           this.dialogRef.close(response);

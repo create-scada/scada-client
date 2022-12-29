@@ -31,12 +31,8 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatSelectModule } from "@angular/material/select";
-import { AlarmComponent } from "./alarm/alarm.component";
-import { CreateAlarmComponent } from "./alarm/create-alarm/create-alarm.component";
 import { GlobalData } from "./app.config";
-import { ListAlarmsComponent } from "./alarm/list-alarms/list-alarms.component";
 import { HistorianComponent } from "./historian/historian.component";
-import { SimulatorComponent } from './simulator/simulator.component';
 import { ListLocationsComponent } from './location/list-locations/list-locations.component';
 import { ViewDeviceComponent } from './location/view-device/view-device.component';
 import { DeviceComponent } from './location/device/device.component';
@@ -50,11 +46,7 @@ import { RoundStringPipe } from './round-string.pipe';
         CreateDeviceComponent,
         PrimaryNavComponent,
         HomeComponent,
-        AlarmComponent,
-        CreateAlarmComponent,
-        ListAlarmsComponent,
         HistorianComponent,
-        SimulatorComponent,
         ListLocationsComponent,
         ViewDeviceComponent,
         DeviceComponent,

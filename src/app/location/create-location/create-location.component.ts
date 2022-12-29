@@ -57,7 +57,7 @@ export class CreateLocationComponent implements OnInit {
     const location: Location = {
       id: 0,
       name: this.locationForm.get("name").value,
-      image_data: this.imageData
+      imageData: this.imageData
     };
 
     this.locationService.createLocation(location)

@@ -18,7 +18,7 @@ export class DeviceComponent implements OnInit {
   @Input()
   location: Location;
 
-  dragPosition = {x: 0, y: 0};
+  dragPosition = { x: 0, y: 0 };
 
   constructor(
     private deviceService: DeviceService,
@@ -31,17 +31,8 @@ export class DeviceComponent implements OnInit {
   }
 
   isDisplayPoint(name: string) {
-    for (let point of this.device.display_points) {
+    for (let point of this.device.displayPoints) {
       if (point.name == name) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  isAlarmTriggered() {
-    for (let alarm of this.device.alarms) {
-      if (alarm.is_triggered) {
         return true;
       }
     }
@@ -63,7 +54,7 @@ export class DeviceComponent implements OnInit {
   }
 
   dragEnded($event: CdkDragEnd): void {
-    
+
     this.G.setPauseRefresh(false);
 
     const position = $event.source.getFreeDragPosition();
@@ -72,7 +63,7 @@ export class DeviceComponent implements OnInit {
     this.device.y = position.y;
 
 
-    this.deviceService.updateDevice(this.location, this.device)
+    this.deviceService.updateDeviceCanvasCoord(this.device)
       .subscribe(
         response => {
         }
@@ -80,5 +71,5 @@ export class DeviceComponent implements OnInit {
   }
 
 
-  
+
 }

@@ -23,17 +23,4 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  startLabSession() {
-
-    this.appService.getConnection()
-      .subscribe(
-        response => {
-          this.G.setConnId(response.connId);
-          this.snackBar.open(`New Lab Session Created`, "Dismiss", {
-            duration: 5000,
-          });
-        },
-      );
-  }
-
 }

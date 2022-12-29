@@ -6,11 +6,8 @@ import { CreateDeviceComponent } from "../create-device/create-device.component"
 
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
-import { CreateAlarmComponent } from "src/app/alarm/create-alarm/create-alarm.component";
-
-import { Device, Location, Alarm, SensorReading } from "src/app/model";
+import { Device, Location, Reading } from "src/app/model";
 import { GlobalData } from "src/app/app.config";
-import { ListAlarmsComponent } from "src/app/alarm/list-alarms/list-alarms.component";
 import { ViewDeviceComponent } from "../view-device/view-device.component";
 import { DeviceService } from "src/app/services/src/app/services/device.service";
 import { LocationService } from "src/app/services/src/app/services/location.service";
@@ -41,6 +38,9 @@ export class LocationComponent implements OnInit {
     this.deviceService.getDevices(this.id)
       .subscribe(
         response => {
+          for (let device of response) {
+            device.pointData = JSON.parse(device.pointData + '');
+          }
           this.devices = response;
           setInterval(() => this.refreshSensorData(), 3000);
         }
@@ -62,45 +62,9 @@ export class LocationComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = this.clickedDevice.point_data;
+    dialogConfig.data = this.clickedDevice.pointData;
 
     const dialogRef = this.dialog.open(ViewDeviceComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == null) return;
-      //window.location.reload();
-    });
-  }
-
-  listAlarms() {
-    //href="/location/create"
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      locationId: this.id,
-      deviceId: this.clickedDevice.id,
-      alarms: this.clickedDevice.alarms
-    };
-
-    const dialogRef = this.dialog.open(ListAlarmsComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == null) return;
-      // handle response
-    });
-  }
-
-  createAlarm() {
-    //href="/location/create"
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      locationId: this.id,
-      device: this.clickedDevice
-    };
-
-    const dialogRef = this.dialog.open(CreateAlarmComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == null) return;
@@ -135,6 +99,9 @@ export class LocationComponent implements OnInit {
     this.deviceService.getDevices(this.id)
       .subscribe(
         response => {
+          for (let device of response) {
+            device.pointData = JSON.parse(device.pointData + '');
+          }
           this.devices = response;
         }
       );
