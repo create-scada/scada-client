@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   // Local Dev
-  apiEndpoint: "https://127.0.0.1:7033/api"
+  // apiEndpoint: "https://127.0.0.1:7033/api"
+  apiEndpoint: "https://scada-server-vyldnovfhq-uc.a.run.app/api"
 };
 
 /*
