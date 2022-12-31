@@ -19,7 +19,7 @@ export class AppComponent {
       .subscribe(
         schema => {
           // dotnet webapi backend returns as a string instead of a proper JSON object
-          schema = JSON.parse(schema);
+          // schema = JSON.parse(schema);
           this.G.setSchema(schema);
           let s = this.G.getSchema();
         });

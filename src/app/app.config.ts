@@ -29,8 +29,8 @@ export class GlobalData {
   }
 
   public getSchema(): Object {
-    let sSchema = localStorage.getItem('Schema');
-    let schema = JSON.parse(sSchema);
+    let schema = localStorage.getItem('Schema');
+    //let schema = JSON.parse(sSchema);
     return schema;
   }
 

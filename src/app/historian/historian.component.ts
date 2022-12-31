@@ -63,7 +63,7 @@ export class HistorianComponent implements OnInit {
         let s = "";
 
         for (let reading of data) {
-          reading.pointData = JSON.parse(reading.pointData + '');
+          //reading.pointData = JSON.parse(reading.pointData + '');
 
           if (!init) {
             init = true;

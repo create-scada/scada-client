@@ -39,7 +39,7 @@ export class LocationComponent implements OnInit {
       .subscribe(
         response => {
           for (let device of response) {
-            device.pointData = JSON.parse(device.pointData + '');
+            //device.pointData = JSON.parse(device.pointData + '');
           }
           this.devices = response;
           setInterval(() => this.refreshSensorData(), 3000);
@@ -100,7 +100,7 @@ export class LocationComponent implements OnInit {
       .subscribe(
         response => {
           for (let device of response) {
-            device.pointData = JSON.parse(device.pointData + '');
+            //device.pointData = JSON.parse(device.pointData + '');
           }
           this.devices = response;
         }
