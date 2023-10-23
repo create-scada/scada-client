@@ -1,6 +1,7 @@
-# Lumen
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.
+# SCADA-Client
+Frontend for Impact Allies' SCADA software. 
+The backend for the SCADA software can be found [here](https://github.com/create-scada/scada-server/tree/dev).
+Sample output can be found [here](https://github.com/create-scada/scada-data).
 
 ## Development server
 
@@ -25,3 +26,5 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.
