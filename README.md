@@ -1,6 +1,8 @@
 # SCADA-Client
 Frontend for Impact Allies' SCADA software. 
+
 The backend for the SCADA software can be found [here](https://github.com/create-scada/scada-server/tree/dev).
+
 Sample output can be found [here](https://github.com/create-scada/scada-data).
 
 ## Development server
