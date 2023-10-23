@@ -5,7 +5,7 @@ The backend for the SCADA software can be found [here](https://github.com/create
 
 Sample output can be found [here](https://github.com/create-scada/scada-data).
 
-## Development server
+## Running the Frontend
 
 Navigate to the scada-client directory in CMD and type `ng serve` to run the frontend.
 
